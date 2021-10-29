@@ -48,10 +48,14 @@ body{
   margin: 6px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  color:white;
+  font-weight: 800 !important;
+  padding-top: 6px;
 }
 
 .seat.occupied {
   background-color: #6feaf6;
+  color:black !important;
 }
 
 .showcase {

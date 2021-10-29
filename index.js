@@ -3,19 +3,16 @@ const app = express();
 const path = require('path');
 app.use(express.static(path.join(__dirname, 'build')));
 
-//Cors for local file access
-const cors = require("cors");
-app.use(cors());
+// //Cors for local file access
+// const cors = require("cors");
+// app.use(cors());
 
 //Environment Variable
 require('dotenv').config()
-const port = 6000;
+const port = 4000;
 const database = require('./database/connection');
 const Ticket = require('./database/ticket_model');
 
-//Body parser
-const bodyParser = require('body-parser');
-var jsonParser = bodyParser.json()
 app.use("/getData", (req, res) => {
     Ticket.find({}, function (err, Data) {
         if (err) {

@@ -1,89 +1,66 @@
+import { React, useState, useEffect } from 'react'
+import { url } from "../../constants";
+
 const AvlSeats = () => {
-  return (
-    <div className="container">
-      <h1 className="text-center color-white" style={{ pendingTop: "30%" }}>
-        Available Seats
-      </h1>
-      <br /><br />
-      <div className="flex">
 
-      <ul className="showcase">
-        <li>
-          <div className="seat"></div>
-          <small>Occupied</small>
-        </li>
-        <li>
-          <div className="seat occupied"></div>
-          <small>Available</small>
-        </li>
-        
-      </ul>
-      </div>
-      <br /><br />
-      <div className="container flex-column">
+  const [TicketData, setTicketData] = useState({})
+  const [layout,setLayout] = useState([])
+  var count=1
+  useEffect(() => {
+    fetch(`${url}/getData`)
+      .then((response) => response.json())
+      .then((data) => {
+        setTicketData(data[0])
+        setLayout(data[0].ticketList)     
+      })
+  }, [])
+  console.log(layout)
+  console.log(TicketData)
 
-      <div className="row">
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
+  if (layout.length===0) {
+    return <h1>Loading</h1>
+  } else {
+    return (
+      <div className="container">
+        <h1 className="text-center color-white" style={{ pendingTop: "30%" }}>
+          Available Seats : {TicketData.ticketsAvailable}
+        </h1>
+        <br />
+        <div className="flex">
+
+          <ul className="showcase">
+            <li>
+              <div className="seat"></div>
+              <small>Occupied</small>
+            </li>
+            <li>
+              <div className="seat occupied"></div>
+              <small>Available</small>
+            </li>
+
+          </ul>
+        </div>
+        <br />
+        <div className="container flex-column">
+          { 
+            layout.map((outerList) => (
+              <div className="row">
+                {
+                  outerList.map((innerList) =>
+                    innerList === 0 ?
+                      <div className="seat occupied flex">{count++}</div> :
+                      <div className="seat flex">{count++}</div>
+                  )
+                }
+              </div>
+            ))
+          }
+
+          
+        </div>
+        <br /><br />
       </div>
-      <div className="row">
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat occupied"></div>
-        <div className="seat occupied"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-      </div>
-      <div className="row">
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat occupied"></div>
-        <div className="seat occupied"></div>
-      </div>
-      <div className="row">
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-      </div>
-      <div className="row">
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat occupied"></div>
-        <div className="seat occupied"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-      </div>
-      <div className="row">
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat"></div>
-        <div className="seat occupied"></div>
-        <div className="seat occupied"></div>
-        <div className="seat occupied"></div>
-        <div className="seat"></div>
-      </div>
-    </div>
-    </div>
-  );
+    );
+  }
 };
 export default AvlSeats;
